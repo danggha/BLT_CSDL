@@ -50,7 +50,9 @@ namespace BLT_CSDL
             dt = new DataTable();
             dt.Load(docdulie);
            
-        }
+        } /// <summary>
+        /// 
+        /// </summary>
         public void xoa()
         {
             text_mssv.Clear();
