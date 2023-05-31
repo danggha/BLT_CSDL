@@ -8,14 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-
+using BotKCuaHa;
 namespace BLT_CSDL
 {
     public partial class Form1 : Form
     {
+        BotKCuaHa.bot bot;
         public Form1()
         {
             InitializeComponent();
+            bot = new BotKCuaHa.bot();
         }
         String chuoiketnoi = @"Data Source=DESKTOP-T80TUOI\SQLEXPRESS;Initial Catalog=BAITAPLON_CSDL;Integrated Security=True";
         String sql;
@@ -26,9 +28,18 @@ namespace BLT_CSDL
         string masv;
 
 
+        String phong;
+        String lop;
+        String khoa;
 
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
 
-
+            if (e.RowIndex == -1) { return; }
+            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+            masv = row.Cells[0].Value.ToString();
+            MessageBox.Show(masv);
+        }
         public void hienthi()
         {
 
@@ -40,42 +51,6 @@ namespace BLT_CSDL
             dt.Load(docdulie);
            
         }
-        public void hienthi2()
-        {
-
-            ketnoi.Open();
-            sql = @"Select maphong, sophong, loaiphong, toanha from PHONG";
-            thuchien = new SqlCommand(sql, ketnoi);
-            docdulie = thuchien.ExecuteReader();
-            dt = new DataTable();
-            dt.Load(docdulie);
-
-        }
-        public void hienthi3()
-        {
-
-            ketnoi.Open();
-            sql = @"Select makhoa, tenkhoa from KHOA";
-            thuchien = new SqlCommand(sql, ketnoi);
-            docdulie = thuchien.ExecuteReader();
-            dt = new DataTable();
-            dt.Load(docdulie);
-
-        }
-        public void hienthi4()
-        {
-
-            ketnoi.Open();
-            sql = @"Select malop, tenlop from LOP";
-            thuchien = new SqlCommand(sql, ketnoi);
-            docdulie = thuchien.ExecuteReader();
-            dt = new DataTable();
-            dt.Load(docdulie);
-
-        }
-
-
-
         public void xoa()
         {
             text_mssv.Clear();
@@ -83,15 +58,6 @@ namespace BLT_CSDL
             text_gtsv.Clear();
             text_dcsv.Clear();
             text_sdtsv.Clear();
-
-        }
-        public void xoa2()
-        {
-            txt_maphong.Clear();
-           txt_sophong.Clear();
-           txt_loaiphong.Clear();
-            txt_toanha.Clear();
-           
 
         }
         private void themsinhvien()
@@ -129,19 +95,15 @@ namespace BLT_CSDL
             ketnoi = new SqlConnection(chuoiketnoi);
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void cmd_thên_Click(object sender, EventArgs e)
         {
-            hienthi2();
-            dataGridView2.DataSource = dt;
-            docdulie.Close();
-            ketnoi.Close();
+            themsinhvien();
         }
-
         private void cmd_xoasv_Click(object sender, EventArgs e)
         {
             ketnoi.Open();
             string sql1 = @"DELETE FROM SINH_VIEN
-            WHERE mssv = '"+ masv + "'";
+            WHERE mssv = '" + masv + "'";
 
             thuchien = new SqlCommand(sql1, ketnoi);
             thuchien.ExecuteNonQuery();
@@ -149,56 +111,74 @@ namespace BLT_CSDL
 
 
             hienthi();
-            dataGridView1.DataSource = dt;
+            dataGridView1.DataSource = dt;  
             docdulie.Close();
             ketnoi.Close();
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
-                DataGridViewRow row = new DataGridViewRow();
-                row = dataGridView1.Rows[e.RowIndex];
-                masv = Convert.ToString(row.Cells["mssv"].Value);
-                MessageBox.Show(masv);
-                
-            
-        }
-
-        private void cmd_thên_Click(object sender, EventArgs e)
-        {
-            themsinhvien();
-        }
-
         private void cmd_sửa_Click(object sender, EventArgs e)
         {
-            
 
-            
-                ketnoi.Open();
-                string mssv = text_mssv.Text;
-                string hoten = text_hotensv.Text;
-                string gioitinh = text_gtsv.Text;
-                string diachi = text_dcsv.Text;
-                string sdt = text_sdtsv.Text;
+            ketnoi.Open();
+            string mssv = text_mssv.Text;
+            string hoten = text_hotensv.Text;
+            string gioitinh = text_gtsv.Text;
+            string diachi = text_dcsv.Text;
+            string sdt = text_sdtsv.Text;
 
-                string sql1 = @"update SINH_VIEN SET mssv ='" + mssv + "' ,hoten = N'" + hoten + "' , gioitinh = N'" + gioitinh + "' , sdt = " + sdt + "  , diachi =  N'" + diachi + "'  where  mssv = '"+ masv+"' ";
-                MessageBox.Show(sql1);
-                MessageBox.Show("THÊM THÀNH CÔNG!!");
+            string sql1 = @"update SINH_VIEN SET mssv =N'" + mssv + "' ,hoten = N'" + hoten + "' , gioitinh = N'" + gioitinh + "' , sdt = " + sdt + "  , diachi =  N'" + diachi + "'  where  mssv = ' " + masv + " ' ";
+            MessageBox.Show(sql1);
+            MessageBox.Show("THÊM THÀNH CÔNG!!");
 
-                thuchien = new SqlCommand(sql1, ketnoi);
-                thuchien.ExecuteNonQuery();
+            thuchien = new SqlCommand(sql1, ketnoi);
+            thuchien.ExecuteNonQuery();
 
-                xoa();
-                ketnoi.Close();
-            
+            xoa();
+            ketnoi.Close();
+
         }
-       
+
+
+
+
+        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex == -1) { return; }
+            DataGridViewRow row = dataGridView2.Rows[e.RowIndex];
+            phong = row.Cells[0].Value.ToString();
+
+        }
+        public void hienthi2()
+        {
+
+            ketnoi.Open();
+            sql = @"Select maphong, sophong, loaiphong, toanha from PHONG";
+            thuchien = new SqlCommand(sql, ketnoi);
+            docdulie = thuchien.ExecuteReader();
+            dt = new DataTable();
+            dt.Load(docdulie);
+
+        }
+        public void xoa2()
+        {
+            txt_maphong.Clear();
+            txt_sophong.Clear();
+            txt_loaiphong.Clear();
+            txt_toanha.Clear();
+
+
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            hienthi2();
+            dataGridView2.DataSource = dt;
+            docdulie.Close();
+            ketnoi.Close();
+        }
         private void cmd_xoaphong_Click(object sender, EventArgs e)
         {
             ketnoi.Open();
             string sql1 = @"DELETE FROM PHONG
-            WHERE maphong = '" + PHONG + "'";
+            WHERE maphong = '" + phong + "'";
 
             thuchien = new SqlCommand(sql1, ketnoi);
             thuchien.ExecuteNonQuery();
@@ -207,22 +187,6 @@ namespace BLT_CSDL
 
             hienthi2();
             dataGridView2.DataSource = dt;
-            docdulie.Close();
-            ketnoi.Close();
-        }
-
-        private void cmd_viewlop_Click(object sender, EventArgs e)
-        {
-            hienthi4();
-            dataGridView4.DataSource = dt;
-            docdulie.Close();
-            ketnoi.Close();
-        }
-
-        private void cmd_viewkhoa_Click(object sender, EventArgs e)
-        {
-            hienthi3();
-            dataGridView3.DataSource = dt;
             docdulie.Close();
             ketnoi.Close();
         }
@@ -238,7 +202,7 @@ namespace BLT_CSDL
             string sophong = txt_sophong.Text;
             string loaiphong = txt_loaiphong.Text;
             string toanha = txt_toanha.Text;
-            
+
 
             string sql1 = @"insert into PHONG values ('" + maphong + "' , N'" + sophong + "' , N'" + loaiphong + "' , '" + toanha + "  ')";
             MessageBox.Show(sql1);
@@ -251,25 +215,31 @@ namespace BLT_CSDL
             ketnoi.Close();
         }
 
-        private void cmd_themlop_Click(object sender, EventArgs e)
+
+
+        private void dataGridView3_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-                   themlop();
+            if (e.RowIndex == -1) { return; }
+            DataGridViewRow row = dataGridView3.Rows[e.RowIndex];
+            khoa = row.Cells[0].Value.ToString();
+
         }
-        public void themlop()
+        public void hienthi3()
         {
+            ketnoi = new SqlConnection(chuoiketnoi);
             ketnoi.Open();
-            string malop = txt_malop.Text;
-            string tenlop = txt_tenlop.Text;
-            
+            sql = @"Select makhoa, tenkhoa from KHOA";
+            thuchien = new SqlCommand(sql, ketnoi);
+            docdulie = thuchien.ExecuteReader();
+            dt = new DataTable();
+            dt.Load(docdulie);
 
-            string sql1 = @"insert into LOP values ('" + malop + "' , N'" + tenlop + "'  )";
-            MessageBox.Show(sql1);
-            MessageBox.Show("THÊM THÀNH CÔNG!!");
-
-            thuchien = new SqlCommand(sql1, ketnoi);
-            thuchien.ExecuteNonQuery();
-
-            xoa();
+        }
+        private void cmd_viewkhoa_Click(object sender, EventArgs e)
+        {
+            hienthi3();
+            dataGridView3.DataSource = dt;
+            docdulie.Close();
             ketnoi.Close();
         }
 
@@ -295,5 +265,92 @@ namespace BLT_CSDL
             ketnoi.Close();
         }
 
+        private void cmd_xoakhoa_Click(object sender, EventArgs e)
+        {
+            ketnoi.Open();
+            string sql1 = @"DELETE FROM KHOA
+            WHERE makhoa = '" + khoa + "'";
+            MessageBox.Show(sql1);
+            thuchien = new SqlCommand(sql1, ketnoi);
+            thuchien.ExecuteNonQuery();
+            ketnoi.Close();
+
+
+            hienthi4();
+            dataGridView3.DataSource = dt;
+            docdulie.Close();
+            ketnoi.Close();
+        }
+
+
+
+
+        private void dataGridView4_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex == -1) { return; }
+            DataGridViewRow row = dataGridView4.Rows[e.RowIndex];
+            lop = row.Cells[0].Value.ToString();
+
+        }
+        private void cmd_xoalop_Click(object sender, EventArgs e)
+        {
+            ketnoi.Open();
+            string sql1 = @"DELETE FROM LOP
+            WHERE malop = '" + lop + "'";
+            MessageBox.Show(sql1);
+            thuchien = new SqlCommand(sql1, ketnoi);
+            thuchien.ExecuteNonQuery();
+            ketnoi.Close();
+
+
+            hienthi4();
+            dataGridView4.DataSource = dt;
+            docdulie.Close();
+            ketnoi.Close();
+        }
+
+        public void hienthi4()
+        {
+
+            ketnoi.Open();
+            sql = @"Select malop, tenlop from LOP";
+            thuchien = new SqlCommand(sql, ketnoi);
+            docdulie = thuchien.ExecuteReader();
+            dt = new DataTable();
+            dt.Load(docdulie);
+
+        }
+
+        private void cmd_viewlop_Click(object sender, EventArgs e)
+        {
+            hienthi4();
+            dataGridView4.DataSource = dt;
+            docdulie.Close();
+            ketnoi.Close();
+        }
+
+        private void cmd_themlop_Click(object sender, EventArgs e)
+        {
+                   themlop();
+        }
+        public void themlop()
+        {
+            ketnoi.Open();
+            string malop = txt_malop.Text;
+            string tenlop = txt_tenlop.Text;
+            
+
+            string sql1 = @"insert into LOP values ('" + malop + "' , N'" + tenlop + "'  )";
+            MessageBox.Show(sql1);
+            MessageBox.Show("THÊM THÀNH CÔNG!!");
+
+            thuchien = new SqlCommand(sql1, ketnoi);
+            thuchien.ExecuteNonQuery();
+
+            xoa();
+            ketnoi.Close();
+        }  
+
+       
     }
 }

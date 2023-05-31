@@ -1,6 +1,6 @@
 ﻿namespace BotKCuaHa
 {
-    partial class Form1
+    partial class bot
     {
         /// <summary>
         /// Required designer variable.
@@ -39,13 +39,13 @@
             this.txtLog.Size = new System.Drawing.Size(745, 396);
             this.txtLog.TabIndex = 0;
             // 
-            // Form1
+            // bot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.txtLog);
-            this.Name = "Form1";
+            this.Name = "bot";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();

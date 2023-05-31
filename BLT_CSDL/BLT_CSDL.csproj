@@ -8,10 +8,11 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>BLT_CSDL</RootNamespace>
     <AssemblyName>BLT_CSDL</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -82,6 +83,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\z4376446432855_d9a9dd1521da7512aefe229edb81ff2e.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BotKCuaHa\BotKCuaHa.csproj">
+      <Project>{7cbcc235-e25f-4cfd-b851-1bb87c510be1}</Project>
+      <Name>BotKCuaHa</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
