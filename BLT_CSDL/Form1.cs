@@ -53,7 +53,7 @@ namespace BLT_CSDL
         } /// <summary>
         /// 
         /// </summary>
-        public void xoa()
+        public void xoa()//
         {
             text_mssv.Clear();
             text_hotensv.Clear();
